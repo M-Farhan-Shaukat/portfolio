@@ -188,7 +188,7 @@ export default function Home() {
             </div>
             <div className={styles.skillCard}>
               <div className={styles.skillIcon}>🎨</div>
-              <h3>Design & Tools</h3>
+              <h3>Skills & Tools</h3>
               <ul>
                 <li>GitHub</li>
                 <li>Postman</li>
@@ -198,11 +198,11 @@ export default function Home() {
             </div>
             <div className={styles.skillCard}>
               <div className={styles.skillIcon}>📱</div>
-              <h3>Mobile & More</h3>
+              <h3>Services</h3>
               <ul>
                 <li>API Optimization</li>
                 <li>Performance Tuning</li>
-                <li>Security & RBAC</li>
+                <li>Security</li>
                 <li>Authentication/Authorization</li>
                 <li>Multilingual (i18n)</li>
               </ul>
@@ -224,6 +224,69 @@ export default function Home() {
           <div className={styles.projectsGrid}>
             <div className={styles.projectCard}>
               <div className={styles.projectImage}>
+                <img 
+                  src="/images/convertpk.png" 
+                  alt="ConvertPK Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div className={styles.projectBadge}>New</div>
+                <div className={styles.projectOverlay}>
+                  <a href="https://convertpk.com" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Live Demo
+                  </a>
+                </div>
+              </div>
+              <div className={styles.projectInfo}>
+                <h3>ConvertPK</h3>
+                <p>ConvertPK.com is a fast and user-friendly online file conversion platform built with Next.js, allowing users to seamlessly convert PDFs, ZIPs, Base64, images, and more — all directly from their browser with a smooth and responsive experience.</p>
+                <div className={styles.projectTags}>
+                  <span>Node.js</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.projectCard}>
+              <div className={styles.projectImage}>
+                <img 
+                  src="/images/krub.png" 
+                  alt="Krub.ai Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div className={styles.projectBadge}>Featured</div>
+                <div className={styles.projectOverlay}>
+                  <a href="https://krub.ai" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Live Demo
+                  </a>
+                </div>
+              </div>
+              <div className={styles.projectInfo}>
+                <h3>Krub.ai</h3>
+                <p>Krub enables users to join or build wholesale buying communities, connect with other businesses, share requirements and leverage collective volume to negotiate stronger bargains. It’s designed to support businesses that need access to wholesale pricing by creating collaborative purchasing groups rather than going solo.</p>
+                <div className={styles.projectTags}>
+                  <span>Next.js</span>
+                  <span>Bootstrap</span>
+                  <span>Node.js</span>
+                  <span>Mongoose</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.projectCard}>
+              <div className={styles.projectImage}>
+                <img 
+                  src="/images/inventory.png" 
+                  alt="Inventory Management System Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
                 <div className={styles.projectBadge}>Featured</div>
                 <div className={styles.projectOverlay}>
                   <a href="http://inventory.seebiz.com" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
@@ -249,6 +312,11 @@ export default function Home() {
             </div>
             <div className={styles.projectCard}>
               <div className={styles.projectImage}>
+                <img 
+                  src="/images/books.png" 
+                  alt="Books Management System Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
                 <div className={styles.projectOverlay}>
                   <a href="https://books.seebiz.com" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -273,6 +341,11 @@ export default function Home() {
             </div>
             <div className={styles.projectCard}>
               <div className={styles.projectImage}>
+                <img 
+                  src="/images/expense.png" 
+                  alt="Expense Management System Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
                 <div className={styles.projectOverlay}>
                   <a href="https://expense.seebiz.com" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -297,6 +370,11 @@ export default function Home() {
             </div>
             <div className={styles.projectCard}>
               <div className={styles.projectImage}>
+                <img 
+                  src="/images/admin.png" 
+                  alt="Inventory / Books / Expense Admin Panel Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
                 <div className={styles.projectOverlay}>
                   <a href="https://admin-inventory.seebiz.com/" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -317,6 +395,68 @@ export default function Home() {
                   <span>Vue.js</span>
                   <span>Blade</span>
                   <span>Bootstrap</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.projectCard}>
+              <div className={styles.projectImage}>
+                <img 
+                  src="/images/legal.png" 
+                  alt="Legal Documents Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div className={styles.projectBadge}>Featured</div>
+                <div className={styles.projectOverlay}>
+                  <a href="#" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Live Demo
+                  </a>
+                </div>
+              </div>
+              <div className={styles.projectInfo}>
+                <h3>Legal Documents</h3>
+                <p>Developed an admin panel for creating document templates and dynamic questionnaires, along with a user portal where users can select templates, answer related questions, and generate customized PDF documents after secure payment. Implemented backend business logic and collaborated with the frontend team to ensure smooth data flow and reliable document generation.</p>
+                <div className={styles.projectTags}>
+                  <span>Next.js</span>
+                  <span>Bootstrap</span>
+                  <span>Laravel</span>
+                  <span>MySQL</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.projectCard}>
+              <div className={styles.projectImage}>
+                <img 
+                  src="/images/marklab.png" 
+                  alt="Marklab Doctors Portal Preview"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div className={styles.projectBadge}>Featured</div>
+                <div className={styles.projectOverlay}>
+                  <a href="#" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    Live Demo
+                  </a>
+                </div>
+              </div>
+              <div className={styles.projectInfo}>
+                <h3>Marklab Doctors Portal</h3>
+                <p>Developed a complete Doctor Portal allowing doctors to add patients and create medical records with prescriptions, test reports, and treatment plans. Implemented patient access to reports via patient ID, doctor record management, and secure role-based access control. Collaborated with the frontend team to ensure reliable APIs and seamless user experience.</p>
+                <div className={styles.projectTags}>
+                  <span>Next.js</span>
+                  <span>Bootstrap</span>
+                  <span>Laravel</span>
+                  <span>MySQL</span>
                 </div>
               </div>
             </div>
