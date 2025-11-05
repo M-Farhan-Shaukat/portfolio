@@ -490,8 +490,8 @@ export default function Home() {
               <div className={styles.testimonialAuthor}>
                 <div className={styles.authorAvatar}>SM</div>
                 <div>
-                  <div className={styles.authorName}>Sarah Mitchell</div>
-                  <div className={styles.authorRole}>CEO, TechCorp Inc.</div>
+                  <div className={styles.authorName}>Abdul Basit</div>
+                  <div className={styles.authorRole}>CEO, Sublime Traders</div>
                 </div>
               </div>
             </div>
@@ -508,10 +508,10 @@ export default function Home() {
                 again on future projects."
               </p>
               <div className={styles.testimonialAuthor}>
-                <div className={styles.authorAvatar}>MJ</div>
+                <div className={styles.authorAvatar}>AL</div>
                 <div>
-                  <div className={styles.authorName}>Michael Johnson</div>
-                  <div className={styles.authorRole}>Founder, StartupHub</div>
+                  <div className={styles.authorName}>Alexander</div>
+                  <div className={styles.authorRole}>Founder, Quantic Solutions</div>
                 </div>
               </div>
             </div>
@@ -528,10 +528,10 @@ export default function Home() {
                 communication throughout the process."
               </p>
               <div className={styles.testimonialAuthor}>
-                <div className={styles.authorAvatar}>EW</div>
+                <div className={styles.authorAvatar}>WA</div>
                 <div>
-                  <div className={styles.authorName}>Emily Williams</div>
-                  <div className={styles.authorRole}>CTO, Digital Solutions</div>
+                  <div className={styles.authorName}>Waqar Ahmad</div>
+                  <div className={styles.authorRole}>PO, Alpha Tech Solutions</div>
                 </div>
               </div>
             </div>
@@ -682,8 +682,7 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.footerBottom}>
-            <p>&copy; {new Date().getFullYear()} Muhammad Farhan Shaukat. All rights reserved.</p>
-            <p>Designed & Developed with ❤️ using Next.js</p>
+            <p>&copy; 2025 Muhammad Farhan Shaukat. All rights reserved.</p>
           </div>
         </div>
       </footer>

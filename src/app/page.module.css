@@ -290,6 +290,7 @@
 
 .sectionDark {
   background: var(--section-dark-bg);
+  color: var(--section-dark-text);
 }
 
 .sectionContent {
