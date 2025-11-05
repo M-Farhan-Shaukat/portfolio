@@ -488,7 +488,7 @@ export default function Home() {
                 any complex web development project."
               </p>
               <div className={styles.testimonialAuthor}>
-                <div className={styles.authorAvatar}>SM</div>
+                <div className={styles.authorAvatar}>AB</div>
                 <div>
                   <div className={styles.authorName}>Abdul Basit</div>
                   <div className={styles.authorRole}>CEO, Sublime Traders</div>
