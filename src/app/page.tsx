@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
+import ContactForm from './contact/ContactUs';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -549,7 +550,7 @@ export default function Home() {
               Let's discuss how I can help bring your vision to life
             </p>
           </div>
-          <div className={styles.contactContent}>
+          <div className={styles.contactContent} style={{display: 'flex', justifyContent: 'space-between'}}>
             <div className={styles.contactInfo}>
               <p>
                 I'm always open to discussing new projects, creative ideas, or 
@@ -593,21 +594,7 @@ export default function Home() {
                 
               </div>
             </div>
-            <form className={styles.contactForm}>
-              <div className={styles.formGroup}>
-                <input type="text" placeholder="Your Name" required />
-              </div>
-              <div className={styles.formGroup}>
-                <input type="email" placeholder="Your Email" required />
-              </div>
-              <div className={styles.formGroup}>
-                <input type="text" placeholder="Subject" required />
-              </div>
-              <div className={styles.formGroup}>
-                <textarea placeholder="Your Message" rows={6} required></textarea>
-              </div>
-              <button type="submit" className={styles.btnPrimary}>Send Message</button>
-            </form>
+          <ContactForm />
           </div>
         </div>
       </section>
