@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import styles from '../page.module.css';
 import Link from 'next/link';
@@ -10,6 +10,11 @@ export default function ContactUs() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Initialize EmailJS on component mount
+  useEffect(() => {
+    emailjs.init("6_vKg1XbaYvRELYgv");
+  }, []);
 
   // Regex patterns
   const nameRegex = /^[a-zA-Z ._-]+$/;

@@ -550,7 +550,7 @@ export default function Home() {
               Let's discuss how I can help bring your vision to life
             </p>
           </div>
-          <div className={styles.contactContent} style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div className={styles.contactContent} >
             <div className={styles.contactInfo}>
               <p>
                 I'm always open to discussing new projects, creative ideas, or 
