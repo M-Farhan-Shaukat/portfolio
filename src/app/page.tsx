@@ -594,7 +594,9 @@ export default function Home() {
                 
               </div>
             </div>
-          <ContactForm />
+            <div className={styles.contactFormWrapper}>
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
