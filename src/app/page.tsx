@@ -9,6 +9,7 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,6 +61,62 @@ export default function Home() {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
+
+  // Prevent body scroll when popup is open
+  useEffect(() => {
+    if (showPopup) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showPopup]);
+
+  // Function to get domain URL from project name
+  const getProjectDomain = (projectName: string): string => {
+    const domainMap: { [key: string]: string } = {
+      'Marklab Doctors Portal': 'marklab-doctors-portal.com',
+      'Legal Documents': 'legal-documents.com',
+    };
+    return domainMap[projectName] || `${projectName.toLowerCase().replace(/\s+/g, '-')}.com`;
+  };
+
+  // Handle live demo button click
+  const handleLiveDemoClick = (e: React.MouseEvent<HTMLAnchorElement>, projectName: string, href: string) => {
+    if (href === '#' || !href || href.trim() === '') {
+      e.preventDefault();
+      
+      // Show popup
+      setShowPopup(true);
+      
+      // Make API call to project domain (but ignore response)
+      // This will appear in the network tab
+      const domain = getProjectDomain(projectName);
+      const url = `https://${domain}`;
+      
+      // Use XMLHttpRequest to ensure it appears in network tab
+      // This method is guaranteed to show in the network tab
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.send();
+      // Don't handle response - we just need the request to appear in network tab
+      
+      // Also use fetch as a backup
+      fetch(url, {
+        method: 'GET',
+        cache: 'no-cache',
+      })
+      .then(() => {
+        // Response received but we don't use it
+      })
+      .catch(() => {
+        // Ignore errors - the request will still appear in network tab
+      });
+    }
+    // If href is valid, let the link work normally
+  };
 
   return (
     <div className={styles.container}>
@@ -464,7 +521,13 @@ export default function Home() {
                 />
                 <div className={styles.projectBadge}>Featured</div>
                 <div className={styles.projectOverlay}>
-                  <a href="#" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
+                  <a 
+                    href="#" 
+                    className={styles.projectLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={(e) => handleLiveDemoClick(e, 'Legal Documents', '#')}
+                  >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       <polyline points="15 3 21 3 21 9"></polyline>
@@ -495,7 +558,13 @@ export default function Home() {
                 />
                 <div className={styles.projectBadge}>Featured</div>
                 <div className={styles.projectOverlay}>
-                  <a href="#" className={styles.projectLink} target="_blank" rel="noopener noreferrer">
+                  <a 
+                    href="#" 
+                    className={styles.projectLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={(e) => handleLiveDemoClick(e, 'Marklab Doctors Portal', '#')}
+                  >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       <polyline points="15 3 21 3 21 9"></polyline>
@@ -730,6 +799,39 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className={styles.popupOverlay} onClick={() => setShowPopup(false)}>
+          <div className={styles.popupContent} onClick={(e) => e.stopPropagation()}>
+            <button 
+              className={styles.popupClose}
+              onClick={() => setShowPopup(false)}
+              aria-label="Close popup"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <div className={styles.popupIcon}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+            </div>
+            <h3 className={styles.popupTitle}>Site Temporarily Unavailable</h3>
+            <p className={styles.popupMessage}>
+              Due to Development or security maintenance site is down right now
+            </p>
+            <button 
+              className={styles.popupButton}
+              onClick={() => setShowPopup(false)}
+            >
+              Understood
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
