@@ -8,6 +8,7 @@ import ContactForm from './contact/ContactUs';
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +35,32 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu on scroll
+  useEffect(() => {
+    const handleScrollClose = () => {
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    
+    if (isMobileMenuOpen) {
+      window.addEventListener('scroll', handleScrollClose, { passive: true });
+      return () => window.removeEventListener('scroll', handleScrollClose);
+    }
+  }, [isMobileMenuOpen]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <div className={styles.container}>
       {/* Navigation */}
@@ -52,13 +79,41 @@ export default function Home() {
             />
             <span className={styles.logoText}>Farhan</span>
           </div>
-          <ul className={styles.navLinks}>
-            <li><a href="#home" className={activeSection === 'home' ? styles.active : ''}>Home</a></li>
-            <li><a href="#about" className={activeSection === 'about' ? styles.active : ''}>About</a></li>
-            <li><a href="#skills" className={activeSection === 'skills' ? styles.active : ''}>Skills</a></li>
-            <li><a href="#projects" className={activeSection === 'projects' ? styles.active : ''}>Projects</a></li>
-            <li><a href="#testimonials" className={activeSection === 'testimonials' ? styles.active : ''}>Testimonials</a></li>
-            <li><a href="#contact" className={activeSection === 'contact' ? styles.active : ''}>Contact</a></li>
+          <button 
+            className={styles.mobileMenuButton}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const newState = !isMobileMenuOpen;
+              console.log('Menu button clicked, new state:', newState);
+              setIsMobileMenuOpen(newState);
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+            }}
+            aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
+            type="button"
+          >
+            <span className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+          {isMobileMenuOpen && (
+            <div 
+              className={styles.mobileMenuOverlay}
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+          )}
+          <ul className={`${styles.navLinks} ${isMobileMenuOpen ? styles.navLinksOpen : ''}`}>
+            <li><a href="#home" onClick={() => setIsMobileMenuOpen(false)} className={activeSection === 'home' ? styles.active : ''}>Home</a></li>
+            <li><a href="#about" onClick={() => setIsMobileMenuOpen(false)} className={activeSection === 'about' ? styles.active : ''}>About</a></li>
+            <li><a href="#skills" onClick={() => setIsMobileMenuOpen(false)} className={activeSection === 'skills' ? styles.active : ''}>Skills</a></li>
+            <li><a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className={activeSection === 'projects' ? styles.active : ''}>Projects</a></li>
+            <li><a href="#testimonials" onClick={() => setIsMobileMenuOpen(false)} className={activeSection === 'testimonials' ? styles.active : ''}>Testimonials</a></li>
+            <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className={activeSection === 'contact' ? styles.active : ''}>Contact</a></li>
           </ul>
         </div>
       </nav>
