@@ -414,7 +414,7 @@ export default function Home() {
               </div>
               <div className={styles.projectInfo}>
                 <h3>Inventory Management System</h3>
-                <p>Developed backend business logic for inventory and accounting, including Chart of Accounts, PDF templating, and Stripe payments. Implemented Chinese translation and collaborated closely with frontend for seamless API communication.</p>
+                <p>SeeBiz Inventory is a cloud-based system designed for wholesalers and B2B suppliers to manage stock, orders, and multi-warehouse operations in one place. It provides real-time tracking, fast invoicing, reorder alerts, and detailed item histories. The platform also supports customer-specific pricing, role-based access, and reporting tools that help businesses streamline their workflow and make better inventory decisions.</p>
                 <div className={styles.projectTags}>
                   <span>React.js</span>
                   <span>Laravel</span>
@@ -443,7 +443,7 @@ export default function Home() {
               </div>
               <div className={styles.projectInfo}>
                 <h3>Books Management System</h3>
-                <p>Built backend logic for accounting reports (Chart of Accounts, PDFs, Stripe), integrated with Inventory Management for consistent reporting, added Chinese translation, and ensured efficient API communication with the frontend.</p>
+                <p>SeeBiz Books is an accounting-focused management system that handles journals, ledgers, trial balances, invoices, bills, and detailed financial reports, enabling businesses to efficiently track and manage their finances in one unified platform.</p>
                 <div className={styles.projectTags}>
                   <span>React.js</span>
                   <span>Laravel</span>
@@ -472,7 +472,7 @@ export default function Home() {
               </div>
               <div className={styles.projectInfo}>
                 <h3>Expense Management System</h3>
-                <p>Implemented backend logic including Chart of Accounts and Stripe integration. Built Trip and Expense modules with admin approvals and role-based access control, ensuring seamless API communication with frontend.</p>
+                <p>Expense Management System is a platform that tracks and manages all organizational expenses, including advances, trips, and daily expenditures. It features separate admin and user panels for streamlined oversight, approval workflows, and efficient financial management.</p>
                 <div className={styles.projectTags}>
                   <span>React.js</span>
                   <span>Laravel</span>
@@ -501,7 +501,7 @@ export default function Home() {
               </div>
               <div className={styles.projectInfo}>
                 <h3>Inventory / Books / Expense Admin Panel</h3>
-                <p>Built a custom admin panel to manage users and organizations, enabling large-scale updates across accounts. Replaced legacy Chart of Accounts with a flexible, scalable structure tailored to user needs.</p>
+                <p>Admin Panel is a centralized system that manages expenses, inventory, and books across multiple organizations. It allows administrators to oversee users, add or remove accounts, manage general data, and ensure all operations are handled systematically for every organization and user.</p>
                 <div className={styles.projectTags}>
                   <span>Laravel</span>
                   <span>MySQL</span>
@@ -539,7 +539,7 @@ export default function Home() {
               </div>
               <div className={styles.projectInfo}>
                 <h3>Legal Documents</h3>
-                <p>Developed an admin panel for creating document templates and dynamic questionnaires, along with a user portal where users can select templates, answer related questions, and generate customized PDF documents after secure payment. Implemented backend business logic and collaborated with the frontend team to ensure smooth data flow and reliable document generation.</p>
+                <p>Law Form Projects is a legal document generation system where users can create customized documents by answering simple, guided questions. Once submitted, the documents are reviewed and approved by an admin, after which users can download them in PDF format, streamlining the process of generating accurate and legally compliant paperwork.</p>
                 <div className={styles.projectTags}>
                   <span>Next.js</span>
                   <span>Bootstrap</span>
@@ -576,7 +576,7 @@ export default function Home() {
               </div>
               <div className={styles.projectInfo}>
                 <h3>Marklab Doctors Portal</h3>
-                <p>Developed a complete Doctor Portal allowing doctors to add patients and create medical records with prescriptions, test reports, and treatment plans. Implemented patient access to reports via patient ID, doctor record management, and secure role-based access control. Collaborated with the frontend team to ensure reliable APIs and seamless user experience.</p>
+                <p>MarkLab is a medical billing and healthcare management system where doctors can register, manage their reports, and prescriptions. Users can easily connect with doctors, access their medical reports, and view prescriptions, streamlining communication and record-keeping between patients and healthcare providers.</p>
                 <div className={styles.projectTags}>
                   <span>Next.js</span>
                   <span>Bootstrap</span>
