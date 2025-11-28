@@ -715,6 +715,24 @@ export default function Home() {
                   </svg>
                   <span>LinkedIn</span>
                 </a>
+                    <a href="https://wa.me/923010017469" aria-label="WhatsApp" className={styles.socialLink}>
+                 <svg
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M20.88 13.46A9 9 0 0 1 7.88 20L3 21l1-4.88a9 9 0 1 1 16.88-2.66z" />
+  <path d="M8.68 10.94L10.21 9.4 9.81 8H8s-.41 2.54 2.52 5.46S16 16 16 16v-1.81l-1.4-.4-1.54 1.53" />
+</svg>
+
+                  <span>Whatsapp</span>
+                </a>
                 
               </div>
             </div>
@@ -790,6 +808,23 @@ export default function Home() {
                     <rect x="2" y="9" width="4" height="12"/>
                     <circle cx="4" cy="4" r="2"/>
                   </svg>
+                </a>
+
+                <a href="https://wa.me/923010017469" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                           <svg
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M20.88 13.46A9 9 0 0 1 7.88 20L3 21l1-4.88a9 9 0 1 1 16.88-2.66z" />
+  <path d="M8.68 10.94L10.21 9.4 9.81 8H8s-.41 2.54 2.52 5.46S16 16 16 16v-1.81l-1.4-.4-1.54 1.53" />
+</svg>
                 </a>
               </div>
             </div>
