@@ -99,7 +99,7 @@ export default function Home() {
   const handleLiveDemoClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     projectName: string,
-    href: string
+    href: string,
   ) => {
     if (href === "#" || !href || href.trim() === "") {
       e.preventDefault();
@@ -257,14 +257,14 @@ export default function Home() {
             <h1 className={styles.heroName}>Muhammad Farhan Shaukat</h1>
             <h2 className={styles.heroTitle}>Full Stack Laravel Developer</h2>
             <p className={styles.heroDescription}>
-              Experienced Laravel developer with over 3.5 years of expertise in
+              Experienced Laravel developer with over 4+ years of expertise in
               building scalable, secure, and high-performance web applications.
               Passionate about clean code, API optimization, and delivering
               efficient backend solutions.
             </p>
             <div className={styles.heroBadges}>
               <span className={styles.badge}>Available for Hire</span>
-              <span className={styles.badge}>3.5+ Years Experience</span>
+              <span className={styles.badge}>4+ Years Experience</span>
             </div>
             <div className={styles.heroButtons}>
               <a href="#projects" className={styles.btnPrimary}>
@@ -312,7 +312,7 @@ export default function Home() {
             <div className={styles.aboutText}>
               <div className={styles.aboutIntro}>
                 <p className={styles.leadText}>
-                  I’m a Full-Stack Web Developer with 3.5+ years of experience
+                  I’m a Full-Stack Web Developer with 4+ years of experience
                   specializing in Laravel and backend development. I build
                   scalable, high-performance, and secure web applications with
                   clean, maintainable code and optimized architecture.
@@ -338,7 +338,7 @@ export default function Home() {
                   <p>Happy Clients</p>
                 </div>
                 <div className={styles.stat}>
-                  <h3>3.5+</h3>
+                  <h3>4+</h3>
                   <p>Years Experience</p>
                 </div>
               </div>
@@ -425,14 +425,14 @@ export default function Home() {
             <div className={styles.projectCard}>
               <div className={styles.projectImage}>
                 <img
-                  src="/images/convertpk.png"
-                  alt="ConvertPK Preview"
+                  src="/images/qats.png"
+                  alt="QATS Preview"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
                 <div className={styles.projectBadge}>New</div>
                 <div className={styles.projectOverlay}>
                   <a
-                    href="https://convertpk.com"
+                    href="https://qats.qalam.it"
                     className={styles.projectLink}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -454,16 +454,20 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.projectInfo}>
-                <h3>ConvertPK</h3>
+                <h3>QATS</h3>
                 <p>
-                  ConvertPK.com is a fast and user-friendly online file
-                  conversion platform built with Next.js, allowing users to
-                  seamlessly convert PDFs, ZIPs, Base64, images, and more — all
-                  directly from their browser with a smooth and responsive
-                  experience.
+                  As a backend developer, I designed and implemented the core
+                  system responsible for handling user authentication,
+                  role-based access (admin, mentor, student), course management,
+                  batch enrollment, and progress tracking. The platform is built
+                  to efficiently manage training workflows, including lesson
+                  modules, assignments, and certification processes.
                 </p>
                 <div className={styles.projectTags}>
-                  <span>Node.js</span>
+                 <span>Next.js</span>
+                  <span>Laravel</span>
+                  <span>MySQL</span>
+                  <span>Bootstrap</span>
                 </div>
               </div>
             </div>
