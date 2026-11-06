@@ -115,10 +115,6 @@ export default function ContactUs() {
     return () => clearTimeout(timer);
   }, [submitted, error]);
 
-  // Theme classes
-  const cardClass = "card bg-dark text-light border-secondary" ;
-  const cardBodyClass = "card-body bg-dark text-light" ;
-
   return (
     <>
       
@@ -220,7 +216,7 @@ export default function ContactUs() {
             </button>
             {submitted && (
               <div className="alert alert-success mt-3" role="alert">
-                Thank you for contacting me! I'll get back to you soon.
+                Thank you for contacting me! I&apos;ll get back to you soon.
               </div>
             )}
             {error && (

@@ -13,8 +13,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Muhammad Farhan Shaukat | Full Stack Laravel Developer",
-  description: "Experienced Full Stack Laravel developer (3.5+ years) building scalable, secure, and high-performance web applications with clean code and optimized APIs.",
+  title: "Muhammad Farhan Shaukat | Full-Stack Software Engineer",
+  description:
+    "Full-Stack Software Engineer with 5+ years of experience building scalable, multi-tenant SaaS applications with Laravel, PHP, React.js, Node.js and AI integration.",
+  keywords: [
+    "Muhammad Farhan Shaukat",
+    "Full-Stack Software Engineer",
+    "Laravel Developer",
+    "PHP Developer",
+    "React.js Developer",
+    "Node.js Developer",
+    "AI Integration",
+    "Lahore",
+  ],
+  authors: [{ name: "Muhammad Farhan Shaukat" }],
 };
 
 export default function RootLayout({
