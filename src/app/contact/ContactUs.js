@@ -2,7 +2,28 @@
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import styles from '../page.module.css';
-import Link from 'next/link';
+
+const EMAILJS_PUBLIC_KEY = '6_vKg1XbaYvRELYgv';
+const EMAILJS_SERVICE = 'service_bffriiu';
+const EMAILJS_TEMPLATE = 'template_n8ttg79';
+
+const nameRegex = /^[a-zA-Z ._-]+$/;
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+function validate(name, value) {
+  const v = value.trim();
+  if (name === 'name') {
+    if (!v) return 'Name is required.';
+    if (!nameRegex.test(v)) return "Name can only contain letters, spaces, '.', '_' and '-'.";
+  }
+  if (name === 'email') {
+    if (!v) return 'Email is required.';
+    if (!emailRegex.test(v)) return 'Please enter a valid email address (e.g. name@domain.com).';
+  }
+  if (name === 'subject' && !v) return 'Subject cannot be empty.';
+  if (name === 'message' && !v) return 'Message cannot be empty.';
+  return '';
+}
 
 export default function ContactUs() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -11,221 +32,110 @@ export default function ContactUs() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Initialize EmailJS on component mount
   useEffect(() => {
-    emailjs.init("6_vKg1XbaYvRELYgv");
+    emailjs.init(EMAILJS_PUBLIC_KEY);
   }, []);
 
-  // Regex patterns
-  const nameRegex = /^[a-zA-Z ._-]+$/;
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  // Validation logic
-  const validateField = (name, value) => {
-    let error = "";
-    if (name === "name") {
-      if (!value.trim()) error = "Name is required.";
-      else if (!nameRegex.test(value.trim()))
-        error = "Name can only contain letters, space, '.', '_', and '-'.";
-    }
-    if (name === "email") {
-      if (!value.trim()) error = "Email is required.";
-      else if (!emailRegex.test(value.trim()))
-        error = "Please enter a valid email address (e.g., example@domain.com).";
-    }
-    if (name === "subject") {
-      if (!value.trim()) error = "Subject cannot be empty.";
-    }
-    if (name === "message") {
-      if (!value.trim()) error = "Message cannot be empty.";
-      else if (value.trim().length < 1)
-        error = "Message should be at least 1 characters long.";
-    }
-    setErrors((prev) => ({ ...prev, [name]: error }));
-    return error;
+  const setFieldError = (name, value) => {
+    const msg = validate(name, value);
+    setErrors((prev) => ({ ...prev, [name]: msg }));
+    return msg;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    validateField(name, value);
+    if (errors[name]) setFieldError(name, value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setError('');
     setSubmitted(false);
 
-    // Validate all fields
-    const nameError = validateField("name", form.name);
-    const emailError = validateField("email", form.email);
-    const subjectError = validateField("subject", form.subject);
-    const messageError = validateField("message", form.message);
+    const hasError = ['name', 'email', 'subject', 'message']
+      .map((f) => setFieldError(f, form[f]))
+      .some(Boolean);
+    if (hasError) return;
 
-    if (
-      nameError ||
-      emailError ||
-      subjectError ||
-      messageError ||
-      !form.name.trim() ||
-      !form.email.trim() ||
-      !form.subject.trim() ||
-      !form.message.trim()
-    ) {
-      setIsSubmitting(false);
-      return;
-    }
-
-    // EmailJS send
-    emailjs.send(
-      "service_bffriiu",
-      "template_n8ttg79",
-      {
-        name: form.name,
-        email: form.email,
-        reply_to: form.email, // for Reply-To
-        subject: form.subject,
-        message: form.message,
-      },
-      "6_vKg1XbaYvRELYgv"
-    )
+    setIsSubmitting(true);
+    emailjs
+      .send(
+        EMAILJS_SERVICE,
+        EMAILJS_TEMPLATE,
+        {
+          name: form.name,
+          email: form.email,
+          reply_to: form.email,
+          subject: form.subject,
+          message: form.message,
+        },
+        EMAILJS_PUBLIC_KEY
+      )
       .then(() => {
         setSubmitted(true);
         setForm({ name: '', email: '', subject: '', message: '' });
         setErrors({});
       })
-      .catch(() => {
-        setError('Failed to send message. Please try again later.');
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
+      .catch(() => setError('Failed to send message. Please try again later.'))
+      .finally(() => setIsSubmitting(false));
   };
 
-  // Hide notifications after 3 seconds
+  // Hide notices after 5 seconds
   useEffect(() => {
-    let timer;
-    if (submitted || error) {
-      timer = setTimeout(() => {
-        setSubmitted(false);
-        setError('');
-      }, 3000);
-    }
+    if (!submitted && !error) return;
+    const timer = setTimeout(() => {
+      setSubmitted(false);
+      setError('');
+    }, 5000);
     return () => clearTimeout(timer);
   }, [submitted, error]);
 
-  return (
-    <>
-      
-      <p>
-        <Link href="mailto:mfarhanshaukatali786@gmail.com"></Link>
-      </p>
-     
-     
-    <form className={styles.contactForm} style={{width: '100%'}} onSubmit={handleSubmit} noValidate>
-              <div className={styles.formGroup}>
-              <input
-                type="text"
-                name="name"
-                id="contactName"
-                className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                value={form.name}
-                onChange={handleChange}
-                onBlur={e => validateField(e.target.name, e.target.value)}
-                placeholder="Your Name"
-                required
-                aria-describedby="nameHelp"
-              />
-              {errors.name && (
-                <div id="nameHelp" className="invalid-feedback">
-                  {errors.name}
-                </div>
-              )}
-              </div>
-              <div className={styles.formGroup}>
-              <input
-                type="email"
-                name="email"
-                id="contactEmail"
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                value={form.email}
-                onChange={handleChange}
-                onBlur={e => validateField(e.target.name, e.target.value)}
-                placeholder="Your Email"
-                required
-                aria-describedby="emailHelp"
-              />
-               {errors.email && (
-                <div id="emailHelp" className="invalid-feedback">
-                  {errors.email}
-                </div>
-              )}
-              </div>
-              <div className={styles.formGroup}>
-              <input
-                type="text"
-                name="subject"
-                id="contactSubject"
-                className={`form-control ${errors.subject ? "is-invalid" : ""}`}
-                value={form.subject}
-                onChange={handleChange}
-                onBlur={e => validateField(e.target.name, e.target.value)}
-                placeholder="Subject"
-                required
-                aria-describedby="subjectHelp"
-              />
-              {errors.subject && (
-                <div id="subjectHelp" className="invalid-feedback">
-                  {errors.subject}
-                </div>
-              )}
-              </div>
-              <div className={styles.formGroup}>
-              <textarea
-                name="message"
-                id="contactMessage"
-                className={`form-control ${errors.message ? "is-invalid" : ""}`}
-                value={form.message}
-                onChange={handleChange}
-                onBlur={e => validateField(e.target.name, e.target.value)}
-                placeholder="Write your message here..."
-                rows="5"
-                required
-                aria-describedby="messageHelp"
-              ></textarea>
-               {errors.message && (
-                <div id="messageHelp" className="invalid-feedback">
-                  {errors.message}
-                </div>
-              )}
-              </div>
-              <button
-              type="submit"
-              className={styles.btnPrimary}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Sending...
-                </>
-              ) : (
-                "Send Message"
-              )}
-            </button>
-            {submitted && (
-              <div className="alert alert-success mt-3" role="alert">
-                Thank you for contacting me! I&apos;ll get back to you soon.
-              </div>
-            )}
-            {error && (
-              <div className="alert alert-danger mt-3" role="alert">
-                {error}
-              </div>
-            )}
-            </form>
-              
-    </>
+  const field = (name, label, props = {}, Tag = 'input') => (
+    <div className={styles.formGroup}>
+      <label htmlFor={`contact-${name}`}>{label}</label>
+      <Tag
+        id={`contact-${name}`}
+        name={name}
+        className={`${styles.input} ${errors[name] ? styles.inputError : ''}`}
+        value={form[name]}
+        onChange={handleChange}
+        onBlur={(e) => setFieldError(name, e.target.value)}
+        aria-invalid={Boolean(errors[name])}
+        aria-describedby={errors[name] ? `contact-${name}-error` : undefined}
+        required
+        {...props}
+      />
+      {errors[name] && (
+        <span id={`contact-${name}-error`} className={styles.fieldError}>
+          {errors[name]}
+        </span>
+      )}
+    </div>
   );
-} 
+
+  return (
+    <form className={styles.contactForm} onSubmit={handleSubmit} noValidate>
+      <h3 className={styles.formTitle}>Send a message</h3>
+      <div className={styles.formRow}>
+        {field('name', 'Name', { type: 'text', placeholder: 'Your name', autoComplete: 'name' })}
+        {field('email', 'Email', { type: 'email', placeholder: 'you@company.com', autoComplete: 'email' })}
+      </div>
+      {field('subject', 'Subject', { type: 'text', placeholder: 'What is it about?' })}
+      {field('message', 'Message', { rows: 5, placeholder: 'Tell me about the role or the project…' }, 'textarea')}
+
+      <button type="submit" className={styles.btnPrimary} disabled={isSubmitting}>
+        {isSubmitting ? 'Sending…' : 'Send message'}
+      </button>
+
+      <div aria-live="polite">
+        {submitted && (
+          <p className={`${styles.formNotice} ${styles.formSuccess}`}>
+            Thank you for getting in touch! I&apos;ll get back to you soon.
+          </p>
+        )}
+        {error && <p className={`${styles.formNotice} ${styles.formFail}`}>{error}</p>}
+      </div>
+    </form>
+  );
+}

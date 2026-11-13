@@ -1,25 +1,34 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Plus_Jakarta_Sans({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: "variable",
+});
+
+const sans = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const serif = Instrument_Serif({
+  variable: "--font-serif",
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Muhammad Farhan Shaukat | Full-Stack Software Engineer",
+  title: "Muhammad Farhan Shaukat | Full Stack Developer (Laravel & MERN)",
   description:
-    "Full-Stack Software Engineer with 5+ years of experience building scalable, multi-tenant SaaS applications with Laravel, PHP, React.js, Node.js and AI integration.",
+    "Full Stack Developer with 5+ years of experience building scalable, multi-tenant SaaS applications with Laravel, PHP and the MERN stack (MongoDB, Express.js, React.js, Node.js), plus AI integration.",
   keywords: [
     "Muhammad Farhan Shaukat",
-    "Full-Stack Software Engineer",
+    "Full Stack Developer",
     "Laravel Developer",
+    "MERN Stack Developer",
     "PHP Developer",
     "React.js Developer",
     "Node.js Developer",
@@ -36,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${display.variable} ${sans.variable} ${serif.variable}`}>
         {children}
       </body>
     </html>
