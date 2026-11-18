@@ -1,10 +1,13 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import ContactForm from "./contact/ContactUs";
 import Motion from "./Motion";
+import { techLogos } from "./techLogos";
+import ThemeToggle from "./ThemeToggle";
+import ResumeView from "./ResumeView";
 
 /* ═════════════════════════ Content ═════════════════════════ */
 
@@ -39,7 +42,7 @@ const heroStats = [
 type IconName =
   | "arrow" | "download" | "mail" | "phone" | "pin" | "github" | "linkedin" | "whatsapp" | "up"
   | "check" | "copy" | "terminal" | "layers" | "layout" | "server" | "database" | "shield"
-  | "rocket" | "spark" | "cpu" | "cloud" | "code" | "users" | "quote" | "gauge" | "bulb" | "plug" | "test";
+  | "rocket" | "spark" | "cpu" | "cloud" | "code" | "users" | "quote" | "gauge" | "bulb" | "plug" | "test" | "doc";
 
 const focusAreas: { icon: IconName; label: string; title: string; text: string; tech: string }[] = [
   {
@@ -238,11 +241,29 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
     case "gauge": return <svg {...p}><path d="M12 14l4-4M3.5 18a9 9 0 1 1 17 0" /></svg>;
     case "bulb": return <svg {...p}><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z" /></svg>;
     case "plug": return <svg {...p}><path d="M9 2v6M15 2v6M6 8h12v3a6 6 0 0 1-12 0zM12 17v5" /></svg>;
+    case "doc": return <svg {...p}><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M9 13h6M9 17h6" /></svg>;
     case "test": return <svg {...p}><path d="M9 3h6M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3" /><path d="M7 15h10" /></svg>;
   }
 }
 
 /* ═════════════════════════ Small pieces ═════════════════════════ */
+
+function TechLogo({ label }: { label: string }) {
+  const logo = techLogos[label];
+  if (!logo) return null;
+  return (
+    <svg
+      className={styles.orbitLogo}
+      viewBox="0 0 24 24"
+      width={14}
+      height={14}
+      aria-hidden="true"
+      style={logo.color ? { ["--logo" as string]: logo.color } : undefined}
+    >
+      <path d={logo.d} fillRule={logo.fillRule} />
+    </svg>
+  );
+}
 
 function Mark({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   return (
@@ -333,6 +354,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
   const [roleIndex, setRoleIndex] = useState(0);
   const [tab, setTab] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -416,13 +438,28 @@ export default function Home() {
     };
   }, []);
 
-  // Lock body scroll while the mobile menu is open
+  // Lock body scroll while the mobile menu or the resume view is open
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+    document.body.style.overflow = menuOpen || resumeOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuOpen]);
+  }, [menuOpen, resumeOpen]);
+
+  // Plain resume view: open/close it on this page, reachable at #resume
+  const openResume = useCallback(() => {
+    setMenuOpen(false);
+    setResumeOpen(true);
+    history.replaceState(null, "", "#resume");
+  }, []);
+  const closeResume = useCallback(() => {
+    setResumeOpen(false);
+    if (location.hash === "#resume") history.replaceState(null, "", location.pathname + location.search);
+  }, []);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync with the URL once on load
+    if (location.hash === "#resume") setResumeOpen(true);
+  }, []);
 
   // Scroll-reveal
   useEffect(() => {
@@ -460,7 +497,8 @@ export default function Home() {
       <div className={styles.intro} aria-hidden="true">
         <Mark size="lg" />
       </div>
-      <Motion paused={menuOpen} />
+      <Motion paused={menuOpen || resumeOpen} />
+      <ResumeView open={resumeOpen} onClose={closeResume} cvHref={CV} />
       <div className={styles.progress} ref={progressRef} aria-hidden="true" />
       <a href="#main" className={styles.skip}>
         Skip to content
@@ -494,14 +532,19 @@ export default function Home() {
               </li>
             ))}
             <li className={styles.navMobileOnly}>
-              <a href={CV} download onClick={() => setMenuOpen(false)}>
-                Resume
-              </a>
+              <button type="button" className={styles.navMenuBtn} onClick={openResume}>
+                Resume (plain view)
+              </button>
             </li>
           </ul>
         </nav>
 
         <div className={styles.navRight}>
+          <button type="button" data-magnetic className={styles.plainBtn} onClick={openResume} title="View my resume as a plain page" aria-label="Plain view: open my resume">
+            <Icon name="doc" size={15} />
+            <span>Plain view</span>
+          </button>
+          <ThemeToggle />
           <a href="#contact" data-magnetic className={`${styles.btnGold} ${styles.btnSm}`}>
             Let&apos;s talk <Icon name="arrow" size={15} />
           </a>
@@ -566,9 +609,9 @@ export default function Home() {
                 <a href="#projects" data-magnetic className={styles.btnGold}>
                   Explore projects <Icon name="arrow" size={15} />
                 </a>
-                <a href={CV} download data-magnetic className={styles.btnOutline}>
-                  <Icon name="download" size={15} /> CV
-                </a>
+                <button type="button" data-magnetic className={styles.btnOutline} onClick={openResume}>
+                  <Icon name="doc" size={15} /> View CV
+                </button>
               </div>
             </div>
 
@@ -737,6 +780,7 @@ export default function Home() {
                               className={styles.orbitChip}
                               style={{ ["--a" as string]: `${angle}deg`, animationDuration: `${ring.speed}s` }}
                             >
+                              <TechLogo label={label} />
                               {label}
                             </span>
                           </span>

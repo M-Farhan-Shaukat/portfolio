@@ -1187,10 +1187,17 @@
   transform: rotateX(62deg);
   transform-style: preserve-3d;
 }
+.orbitWrap {
+  --orbit-ring: rgba(169, 180, 200, 0.18);
+  --chip-bg: rgba(13, 23, 48, 0.92);
+  --chip-border: rgba(52, 211, 153, 0.3);
+  --chip-fg: var(--fg);
+  --chip-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.7);
+}
 .ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(169, 180, 200, 0.18);
+  border: 1px solid var(--orbit-ring);
   transform-style: preserve-3d;
   animation: spin linear infinite;
 }
@@ -1204,16 +1211,25 @@
 }
 .orbitChip {
   position: absolute;
-  display: inline-block;
-  padding: 0.3rem 0.65rem;
-  border: 1px solid rgba(52, 211, 153, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem 0.3rem 0.5rem;
+  border: 1px solid var(--chip-border);
   border-radius: 999px;
-  background: rgba(13, 23, 48, 0.92);
+  background: var(--chip-bg);
+  box-shadow: var(--chip-shadow);
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  color: var(--fg);
+  color: var(--chip-fg);
   white-space: nowrap;
   animation: counter linear infinite;
+}
+.orbitLogo {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  fill: var(--logo, currentColor);
 }
 @keyframes spin {
   to {
@@ -2425,6 +2441,75 @@
   opacity: 1;
 }
 
+/* Instant dot that sits exactly on the pointer */
+.cursorDot {
+  position: fixed;
+  left: -3px;
+  top: -3px;
+  z-index: 251;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s, scale 0.25s var(--ease);
+}
+.cursorDot.cursorOn {
+  opacity: 1;
+}
+.cursorDot.cursorDotHide {
+  scale: 0;
+}
+/* Ring squeezes while the button is held */
+.cursorPress::before {
+  scale: 0.7;
+  transition: transform 0.35s var(--ease), scale 0.15s var(--ease), background 0.3s, border-color 0.3s;
+}
+.cursor::before {
+  transition: transform 0.35s var(--ease), scale 0.35s var(--ease), background 0.3s, border-color 0.3s;
+}
+/* Soft spotlight that trails the pointer */
+.cursorGlow {
+  position: fixed;
+  left: -260px;
+  top: -260px;
+  z-index: 5;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.11) 0%, rgba(52, 211, 153, 0.04) 35%, transparent 65%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s;
+  mix-blend-mode: screen;
+}
+.cursorGlow.cursorOn {
+  opacity: 1;
+}
+:global([data-theme="light"]) .cursorGlow {
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.16) 0%, rgba(52, 211, 153, 0.05) 35%, transparent 65%);
+}
+/* Click ripple */
+.cursorRipple {
+  position: fixed;
+  z-index: 249;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent, #34d399);
+  pointer-events: none;
+  animation: cursorRipple 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes cursorRipple {
+  to {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
 .page [data-magnetic] {
   transition: translate 0.45s var(--ease), transform 0.45s var(--ease), box-shadow 0.45s var(--ease), background 0.3s, color 0.3s, border-color 0.3s;
 }
@@ -2491,4 +2576,290 @@
   background: var(--navy-card);
   border-color: rgba(10, 16, 32, 0.2);
   box-shadow: 0 30px 50px -28px rgba(10, 16, 32, 0.55);
+}
+
+/* Orbit chips on cream sections, or when a light theme is set */
+.light .orbitWrap,
+:global([data-theme="light"]) .orbitWrap {
+  --orbit-ring: rgba(10, 16, 32, 0.16);
+  --chip-bg: #ffffff;
+  --chip-border: rgba(4, 120, 87, 0.28);
+  --chip-fg: #0a1020;
+  --chip-shadow: 0 8px 20px -10px rgba(10, 16, 32, 0.35);
+}
+
+/* ═════════════════════════ Theme toggle ═════════════════════════ */
+
+.themeToggle {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(10, 18, 38, 0.6);
+  backdrop-filter: blur(14px);
+  color: var(--fg);
+  cursor: pointer;
+  transition: color 0.3s, border-color 0.3s, background 0.3s, transform 0.45s var(--ease);
+}
+.themeToggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: rotate(-15deg);
+}
+.themeToggle svg {
+  grid-area: 1 / 1;
+}
+.themeMoon {
+  display: none;
+}
+:global([data-theme="light"]) .themeSun {
+  display: none;
+}
+:global([data-theme="light"]) .themeMoon {
+  display: block;
+}
+
+/* ═════════════════════════ Light theme ═════════════════════════ */
+/* Dark (navy) surfaces turn white / cool grey; cream sections stay cream. */
+
+:global([data-theme="light"]) .page {
+  --navy: #e4eaf4;
+  --navy-2: #dde5f2;
+  --navy-card: linear-gradient(165deg, #ffffff 0%, #f7f9fc 100%);
+  --accent: #059669;
+  --muted: #3e4a63;
+  --faint: #5d6880;
+  --line: rgba(10, 16, 32, 0.12);
+}
+:global([data-theme="light"]) .mark {
+  background-image: linear-gradient(140deg, #0a1020 0%, #26355f 55%, #3b4f8a 100%);
+}
+:global([data-theme="light"]) .ghostWord {
+  color: rgba(10, 16, 32, 0.045);
+}
+:global([data-theme="light"]) .chips li {
+  background: rgba(10, 16, 32, 0.03);
+}
+:global([data-theme="light"]) .btnOutline {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Nav */
+:global([data-theme="light"]) .navScrolled {
+  background: linear-gradient(180deg, rgba(238, 242, 248, 0.92), rgba(238, 242, 248, 0));
+}
+:global([data-theme="light"]) .navPill ul,
+:global([data-theme="light"]) .menuButton,
+:global([data-theme="light"]) .themeToggle {
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 10px 30px -14px rgba(10, 16, 32, 0.25);
+}
+:global([data-theme="light"]) .menuOverlay {
+  background: rgba(10, 16, 32, 0.3);
+}
+@media (max-width: 980px) {
+  :global([data-theme="light"]) .navPill ul {
+    background: rgba(255, 255, 255, 0.97);
+  }
+}
+
+/* Hero */
+:global([data-theme="light"]) .heroGlow {
+  background:
+    radial-gradient(ellipse 55% 70% at 50% 62%, rgba(52, 211, 153, 0.2) 0%, rgba(127, 156, 245, 0.18) 35%, transparent 70%),
+    radial-gradient(ellipse 120% 80% at 50% 0%, #dbe4f4 0%, var(--bg) 70%);
+}
+:global([data-theme="light"]) .heroGlow::after {
+  background-image: linear-gradient(90deg, rgba(10, 16, 32, 0.05) 1px, transparent 1px);
+}
+:global([data-theme="light"]) .heroRoleRight {
+  border-bottom-color: rgba(5, 150, 105, 0.3);
+}
+:global([data-theme="light"]) .heroPortrait img {
+  filter: contrast(1.03) drop-shadow(0 30px 50px rgba(10, 16, 32, 0.22));
+}
+:global([data-theme="light"]) .heroIntro > p {
+  color: rgba(10, 16, 32, 0.82);
+  text-shadow: 0 1px 12px rgba(238, 242, 248, 0.9);
+}
+:global([data-theme="light"]) .companyTile,
+:global([data-theme="light"]) .logoTile {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+/* Cards: navy → white */
+:global([data-theme="light"]) .navyCard,
+:global([data-theme="light"]) .tabCard,
+:global([data-theme="light"]) .quoteCard,
+:global([data-theme="light"]) .light .tlCard {
+  border-color: rgba(10, 16, 32, 0.08);
+  box-shadow: 0 24px 44px -28px rgba(10, 16, 32, 0.3);
+}
+:global([data-theme="light"]) .tlCard {
+  background: var(--navy-card);
+  border-color: rgba(10, 16, 32, 0.08);
+  box-shadow: 0 24px 44px -28px rgba(10, 16, 32, 0.3);
+}
+:global([data-theme="light"]) .light .tlCard,
+:global([data-theme="light"]) .light .workCard,
+:global([data-theme="light"]) .light .quoteCard {
+  --fg: #0a1020;
+  --muted: rgba(10, 16, 32, 0.72);
+  --faint: rgba(10, 16, 32, 0.55);
+  --line: rgba(10, 16, 32, 0.12);
+}
+:global([data-theme="light"]) .light .tlCard em,
+:global([data-theme="light"]) .light .workCard .monoLabel,
+:global([data-theme="light"]) .light .quoteCard figcaption span {
+  color: var(--accent-deep);
+}
+:global([data-theme="light"]) .tlBullets li,
+:global([data-theme="light"]) .flagPoints p {
+  color: rgba(10, 16, 32, 0.82);
+}
+
+/* Flagship */
+:global([data-theme="light"]) .flagshipSection {
+  background: radial-gradient(ellipse 70% 45% at 50% 30%, rgba(52, 211, 153, 0.12), transparent 70%), var(--navy);
+}
+:global([data-theme="light"]) .flagIcon {
+  box-shadow: 0 16px 34px -14px rgba(10, 16, 32, 0.3);
+}
+:global([data-theme="light"]) .flagTitle {
+  background-image: linear-gradient(180deg, #0a1020 30%, #3e4a63 100%);
+}
+:global([data-theme="light"]) .browser {
+  background: #fff;
+  border-color: rgba(10, 16, 32, 0.1);
+  box-shadow: 0 50px 100px -40px rgba(10, 16, 32, 0.35);
+}
+:global([data-theme="light"]) .browserBar {
+  background: #f3f6fa;
+}
+:global([data-theme="light"]) .browserBar i {
+  background: rgba(10, 16, 32, 0.15);
+}
+:global([data-theme="light"]) .browserBar span {
+  background: rgba(10, 16, 32, 0.05);
+}
+
+/* Work cards */
+:global([data-theme="light"]) .workCard {
+  background: linear-gradient(165deg, #ffffff 0%, #f5f8fc 100%);
+  border-color: rgba(10, 16, 32, 0.08);
+  box-shadow: 0 -10px 40px -24px rgba(10, 16, 32, 0.18), 0 40px 70px -40px rgba(10, 16, 32, 0.35);
+}
+:global([data-theme="light"]) .workShot {
+  background: #e4eaf4;
+  border-color: rgba(10, 16, 32, 0.08);
+}
+
+/* Contact form */
+:global([data-theme="light"]) .formCard {
+  box-shadow: 0 40px 70px -35px rgba(10, 16, 32, 0.4);
+}
+:global([data-theme="light"]) .input {
+  background: rgba(10, 16, 32, 0.035);
+}
+:global([data-theme="light"]) .input::placeholder {
+  color: #8892a8;
+}
+:global([data-theme="light"]) .inputError {
+  border-color: #dc2626;
+}
+:global([data-theme="light"]) .fieldError {
+  color: #dc2626;
+}
+:global([data-theme="light"]) .formSuccess {
+  color: #047857;
+}
+:global([data-theme="light"]) .formFail {
+  color: #b91c1c;
+}
+
+/* Footer */
+:global([data-theme="light"]) .footer {
+  background: linear-gradient(180deg, var(--bg), #e4eaf4 60%, #dbe3f0);
+}
+:global([data-theme="light"]) .footGiant {
+  background-image: linear-gradient(180deg, #34d399 0%, #059669 50%, #065f46 100%);
+}
+/* Hero stats sit over the dark suit in the portrait: give them a frosted panel */
+:global([data-theme="light"]) .heroSide {
+  padding: 0.4rem 1rem 0.8rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px -24px rgba(10, 16, 32, 0.35);
+}
+:global([data-theme="light"]) .heroStats > div:first-child,
+:global([data-theme="light"]) .heroStats > div:nth-child(2) {
+  border-top-color: transparent;
+}
+/* Dark badge on the About photo keeps its light text */
+:global([data-theme="light"]) .archBadge .mark {
+  background-image: linear-gradient(140deg, #eef3ff 0%, #8fa8f0 55%, #d9e3ff 100%);
+}
+:global([data-theme="light"]) .archBadge small {
+  color: #a9b4c8;
+}
+
+/* ═════════════════════════ Plain-view button ═════════════════════════ */
+
+.plainBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 42px;
+  padding: 0 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(10, 18, 38, 0.6);
+  backdrop-filter: blur(14px);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.plainBtn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+:global([data-theme="light"]) .plainBtn {
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 10px 30px -14px rgba(10, 16, 32, 0.25);
+}
+.navMenuBtn {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+@media (max-width: 980px) {
+  .plainBtn {
+    display: none;
+  }
+}
+@media (max-width: 1180px) {
+  .plainBtn {
+    width: 42px;
+    padding: 0;
+    justify-content: center;
+  }
+  .plainBtn span {
+    display: none;
+  }
 }

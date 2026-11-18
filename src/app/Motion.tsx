@@ -7,7 +7,9 @@ import styles from "./page.module.css";
 /**
  * Site-wide motion layer:
  *  - Lenis smooth scrolling (+ smooth anchor links)
- *  - custom cursor ring with a label for [data-cursor] targets
+ *  - custom cursor: instant dot + lagging ring that stretches with speed,
+ *    a soft spotlight that follows the pointer and a ripple on click
+ *  - ring shows a label for [data-cursor] targets
  *  - magnetic pull on [data-magnetic] elements
  *  - 3D tilt + glare on [data-tilt] elements
  * Everything is skipped for touch devices and for prefers-reduced-motion.
@@ -15,6 +17,8 @@ import styles from "./page.module.css";
 export default function Motion({ paused }: { paused: boolean }) {
   const ringRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
 
   // Smooth scroll
@@ -65,6 +69,9 @@ export default function Motion({ paused }: { paused: boolean }) {
 
     const ring = ringRef.current;
     const label = labelRef.current;
+    const dot = dotRef.current;
+    const glow = glowRef.current;
+    let labelled = false;
     let mx = -100;
     let my = -100;
     let rx = -100;
@@ -72,9 +79,19 @@ export default function Motion({ paused }: { paused: boolean }) {
     let frame = 0;
 
     const loop = () => {
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
-      if (ring) ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      const dx = (mx - rx) * 0.18;
+      const dy = (my - ry) * 0.18;
+      rx += dx;
+      ry += dy;
+      // Stretch the ring along its direction of travel
+      const speed = Math.min(Math.hypot(dx, dy) / 30, 0.45);
+      const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+      if (ring) {
+        ring.style.transform = labelled
+          ? `translate3d(${rx}px, ${ry}px, 0)`
+          : `translate3d(${rx}px, ${ry}px, 0) rotate(${angle}deg) scale(${1 + speed}, ${1 - speed * 0.5})`;
+      }
+      if (glow) glow.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
       frame = requestAnimationFrame(loop);
     };
     frame = requestAnimationFrame(loop);
@@ -82,17 +99,39 @@ export default function Motion({ paused }: { paused: boolean }) {
     const onMove = (e: PointerEvent) => {
       mx = e.clientX;
       my = e.clientY;
+      if (dot) dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
       ring?.classList.add(styles.cursorOn);
+      dot?.classList.add(styles.cursorOn);
+      glow?.classList.add(styles.cursorOn);
 
       const target = e.target as HTMLElement;
-      const labelled = target.closest<HTMLElement>("[data-cursor]");
+      const labelEl = target.closest<HTMLElement>("[data-cursor]");
       const interactive = target.closest("a, button, summary, [role=tab]");
-      ring?.classList.toggle(styles.cursorLabel, !!labelled);
+      labelled = !!labelEl;
+      ring?.classList.toggle(styles.cursorLabel, labelled);
       ring?.classList.toggle(styles.cursorHover, !labelled && !!interactive);
-      if (label) label.textContent = labelled?.dataset.cursor ?? "";
+      dot?.classList.toggle(styles.cursorDotHide, labelled || !!interactive);
+      if (label) label.textContent = labelEl?.dataset.cursor ?? "";
     };
-    const onLeave = () => ring?.classList.remove(styles.cursorOn);
+    const onLeave = () => {
+      ring?.classList.remove(styles.cursorOn);
+      dot?.classList.remove(styles.cursorOn);
+      glow?.classList.remove(styles.cursorOn);
+    };
+    // Ripple on click
+    const onDown = (e: PointerEvent) => {
+      const ripple = document.createElement("span");
+      ripple.className = styles.cursorRipple;
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+      ripple.addEventListener("animationend", () => ripple.remove());
+      ring?.classList.add(styles.cursorPress);
+    };
+    const onUp = () => ring?.classList.remove(styles.cursorPress);
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointerup", onUp);
     document.documentElement.addEventListener("pointerleave", onLeave);
 
     // Magnetic
@@ -139,6 +178,8 @@ export default function Motion({ paused }: { paused: boolean }) {
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       magnets.forEach((el) => {
         el.removeEventListener("pointermove", magMove);
@@ -152,8 +193,12 @@ export default function Motion({ paused }: { paused: boolean }) {
   }, []);
 
   return (
-    <div ref={ringRef} className={styles.cursor} aria-hidden="true">
-      <span ref={labelRef} />
-    </div>
+    <>
+      <div ref={glowRef} className={styles.cursorGlow} aria-hidden="true" />
+      <div ref={ringRef} className={styles.cursor} aria-hidden="true">
+        <span ref={labelRef} />
+      </div>
+      <div ref={dotRef} className={styles.cursorDot} aria-hidden="true" />
+    </>
   );
 }
