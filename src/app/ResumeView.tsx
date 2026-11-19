@@ -56,7 +56,6 @@ export default function ResumeView({ open, onClose, cvHref }: Props) {
             <p className={styles.contact}>
               {resume.contact.map((c, i) => (
                 <span key={c.label}>
-                  {i > 0 && <span className={styles.sep}>|</span>}
                   {c.href ? (
                     <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
                       {c.label}
@@ -64,6 +63,7 @@ export default function ResumeView({ open, onClose, cvHref }: Props) {
                   ) : (
                     c.label
                   )}
+                  {i < resume.contact.length - 1 && <span className={styles.sep}>|</span>}
                 </span>
               ))}
             </p>
@@ -107,10 +107,15 @@ export default function ResumeView({ open, onClose, cvHref }: Props) {
             {resume.projects.map((p) => (
               <div key={p.name} className={styles.entry}>
                 <h3>
-                  {p.name}{" "}
-                  <a href={`https://${p.url}`} target="_blank" rel="noreferrer">
-                    ({p.url})
-                  </a>
+                  {p.name}
+                  {p.url && (
+                    <>
+                      {" "}
+                      <a href={`https://${p.url}`} target="_blank" rel="noreferrer">
+                        ({p.url})
+                      </a>
+                    </>
+                  )}
                 </h3>
                 <p className={styles.meta}>Technologies: {p.tech}</p>
                 <ul>

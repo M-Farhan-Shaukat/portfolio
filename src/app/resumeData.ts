@@ -11,7 +11,7 @@ export const resume = {
     { label: "github.com/M-Farhan-Shaukat", href: "https://github.com/M-Farhan-Shaukat" },
   ],
   summary:
-    "Full Stack Developer and Software Engineer with 5+ years of experience building scalable, multi-tenant SaaS applications with PHP, Laravel and the MERN stack (MongoDB, Express.js, React.js, Node.js). Builds RESTful APIs and React.js front ends, designs MySQL and MongoDB databases, and builds AI-powered features with LLM and embeddings APIs, such as AI CV matching and candidate analysis. Delivered 7 production products (ATS, HRMS, LMS, inventory, accounting, expense and a training and certification platform), with systems serving 10,000+ active users. Improved API performance by 40%. Works in Agile/Scrum teams, conducts code reviews and mentors junior developers. Seeking a full-time onsite Senior Full Stack Developer role in Lahore.",
+    "Full Stack Developer and Software Engineer with 5+ years of experience building scalable, multi-tenant SaaS applications with PHP, Laravel and the MERN stack (MongoDB, Express.js, React.js, Node.js). Builds RESTful APIs and React.js front ends, designs MySQL and MongoDB databases, and builds AI-powered features with LLM and embeddings APIs, such as AI CV matching and candidate analysis. Delivered 12 production products (ATS, HRMS, LMS, CRM, accounting, inventory, expense, legal-tech, healthcare, community, AI freelance platform and a training and certification platform), with systems serving 10,000+ active users. Improved API performance by 40%. Works in Agile/Scrum teams, conducts code reviews and mentors junior developers. Seeking a full-time onsite Senior Full Stack Developer role in Lahore.",
   skills: [
     ["Backend", "PHP 8, Laravel, CodeIgniter, Node.js, Express.js, MERN Stack, TypeScript, RESTful APIs, MVC, OOP, SOLID Principles, Service Layer, Repository Pattern"],
     ["Laravel Core", "Eloquent ORM and Relationships, Blade Templates, Artisan Commands, Composer, Middleware, Form Request Validation, API Resources, Migrations and Seeders, Queues and Jobs, Task Scheduling, Laravel Sanctum"],
@@ -28,7 +28,7 @@ export const resume = {
       company: "SeeBiz Pvt Ltd",
       meta: "Lahore, Pakistan | May 2022 – Present",
       points: [
-        "Develop full-stack SaaS applications across 7 products using Laravel and MySQL (SeeATS, Books, Inventory, Expense, QATS) and the MERN stack with TypeScript (SeeForce HRMS, SeeClass)",
+        "Develop full-stack SaaS applications across 12 products using Laravel and MySQL (SeeATS, SeeBiz CRM, Books, Inventory, Expense, Law Forma, Marklab, QATS), the MERN stack with TypeScript (SeeForce HRMS, SeeClass, Krub) and the Turnfeat AI platform",
         "Build RESTful APIs, including a 145-endpoint Laravel API organised into 24 modules, and integrate them with React.js front ends",
         "Build Node.js and Express.js REST APIs with MongoDB (Mongoose) and JWT authentication for multi-organization platforms",
         "Build responsive React.js interfaces with reusable components and hooks, plus HTML5, CSS3, jQuery and Bootstrap pages from design layouts",
@@ -125,6 +125,51 @@ export const resume = {
       tech: "PHP, Laravel, MySQL, REST API, Next.js, Bootstrap",
       points: [
         "Built trainee registration, exam access, aptitude assessments, document submission, result recording and progress tracking with secure authentication",
+      ],
+    },
+    {
+      name: "Turnfeat — AI Project Scoping and Freelance Platform",
+      url: "turnfeat.ai",
+      tech: "REST APIs, AI Scoping, Escrow Payments",
+      points: [
+        "Built a freelance platform that turns a client's brief into scoped modules with AI and estimates each module upfront",
+        "Matched the right specialist to every module, with escrow-protected payments released when the work is approved",
+      ],
+    },
+    {
+      name: "SeeBiz CRM — Customer Relationship Management System",
+      url: "",
+      tech: "PHP, Laravel, MySQL, REST API",
+      points: [
+        "Developed CRM modules for leads, customers, sales, invoices, estimates, proposals, subscriptions and contracts",
+        "Built projects, tasks and support tickets with staff management, reports and analytics",
+      ],
+    },
+    {
+      name: "Law Forma — Legal Document Generation Platform",
+      url: "",
+      tech: "Next.js, Laravel, MySQL, Bootstrap",
+      points: [
+        "Built guided questionnaires that generate customized legal documents, such as wills",
+        "Implemented an admin review and approval workflow, after which users download documents as PDF",
+      ],
+    },
+    {
+      name: "Marklab — Doctor Portal and Lab Management",
+      url: "marklabinc.com",
+      tech: "Next.js, Laravel, MySQL, Bootstrap",
+      points: [
+        "Developed a medical billing and healthcare system where doctors register and manage reports and prescriptions",
+        "Built patient access so users connect with doctors and view their medical reports and prescriptions",
+      ],
+    },
+    {
+      name: "Krub — Wholesale Buying Communities",
+      url: "krub.ai",
+      tech: "Next.js, Node.js, Express.js, MongoDB",
+      points: [
+        "Built communities where businesses join or create wholesale buying groups, share requirements and combine volume to negotiate better prices",
+        "Implemented groups, channels and moderation tools",
       ],
     },
   ],
