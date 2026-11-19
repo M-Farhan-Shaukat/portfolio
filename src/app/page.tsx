@@ -6,8 +6,10 @@ import styles from "./page.module.css";
 import ContactForm from "./contact/ContactUs";
 import Motion from "./Motion";
 import { techLogos } from "./techLogos";
+import { flagship, projects, testimonials } from "./projectsData";
 import ThemeToggle from "./ThemeToggle";
 import ResumeView from "./ResumeView";
+import ChatWidget from "./ChatWidget";
 
 /* ═════════════════════════ Content ═════════════════════════ */
 
@@ -34,7 +36,7 @@ const roles = ["Laravel Developer", "MERN Stack Developer", "AI Integration Engi
 
 const heroStats = [
   { value: "5+", label: "Years experience" },
-  { value: "7", label: "Products shipped" },
+  { value: "12", label: "Products shipped" },
   { value: "Laravel & MERN", label: "Core tech stack" },
   { value: "10K+", label: "Active users served" },
 ];
@@ -98,7 +100,7 @@ const experience: Job[] = [
     where: "Lahore, Pakistan · On-site",
     type: "Full-time",
     summary:
-      "Full-stack engineer across 7 SaaS products, built with Laravel and MySQL (SeeATS, Books, Inventory, Expense, QATS) and the MERN stack (SeeForce HRMS, SeeClass).",
+      "Full-stack engineer across 12 SaaS products, built with Laravel and MySQL (SeeATS, Books, Inventory, Expense, QATS, SeeBiz CRM, Law Forma, Marklab), the MERN stack (SeeForce HRMS, SeeClass, Krub) and the Turnfeat AI platform.",
     bullets: [
       "Built a 145-endpoint Laravel API organised into 24 modules and integrated it with React.js front ends.",
       "Shipped AI features with LLM and embeddings APIs: CV parsing, semantic job matching and candidate analysis.",
@@ -157,30 +159,6 @@ const orbitRings = [
   { r: 268, speed: 74, items: ["Docker", "AWS S3", "LLM APIs", "Stripe", "Twilio", "Vitest", "Git"] },
 ];
 
-const flagship = {
-  name: "SeeATS",
-  url: "https://seeats.seebiz.cloud",
-  image: "/images/seeATS.png",
-  subtitle:
-    "An AI-powered applicant tracking system: it reads every CV, scores it against the job and summarises each candidate, so recruiters can focus on the shortlist.",
-  points: [
-    "AI CV matching with PDF parsing, vector embeddings, cosine-similarity scoring and LLM candidate analysis.",
-    "Hiring pipeline built as a state machine (screening, interviews, approval, hire, offer) with full stage history.",
-    "Multi-tenant branches, custom roles, module-level permissions (RBAC) and audit logs.",
-    "Careers portal, OTP candidate portal and Google Calendar scheduling with conflict detection and Twilio SMS.",
-  ],
-  tags: ["PHP 8.4", "Laravel 13", "MySQL", "Queues", "LLM & Embeddings", "AWS S3", "React.js"],
-};
-
-const projects = [
-  { name: "SeeForce", category: "HRMS · MERN stack", tagline: "Multi-organization HR platform", image: "/images/seeForce.png", url: "https://seeforce.seebiz.cloud", description: "Attendance, shift-based attendance, leave, payroll, reporting and batch management, with ZKTeco biometric devices and distributed cron-job locking in MongoDB.", tags: ["MongoDB", "Express.js", "React.js", "Node.js", "TypeScript"] },
-  { name: "SeeClass", category: "LMS · MERN stack", tagline: "Learning management system", image: "/images/seeClass.png", url: "https://seeclass.seebiz.cloud", description: "Curriculum planning, enrollment, timetabling with clash detection, assignments and grading, with SSO into SeeForce and an automated Vitest + Supertest suite.", tags: ["MongoDB", "Express.js", "React.js", "Node.js", "Zod"] },
-  { name: "QATS", category: "Training platform", tagline: "Training & certification", image: "/images/qats.png", url: "https://qats.qalam.it", description: "Trainee registration, exam access, aptitude assessments, document submission, result recording and progress tracking with secure authentication.", tags: ["Laravel", "Next.js", "MySQL", "Bootstrap"] },
-  { name: "Books", category: "Accounting", tagline: "Multi-tenant accounting", image: "/images/books.png", url: "https://books.seebiz.com", description: "Journals, general ledger, invoices, bills, payments and trial balance, with automated balance sheet and profit & loss reports.", tags: ["Laravel", "React.js", "MySQL", "Bootstrap"] },
-  { name: "Inventory", category: "Operations", tagline: "Multi-warehouse inventory", image: "/images/inventory.png", url: "https://inventory.seebiz.com", description: "Products, stock transfers and order processing with real-time stock tracking, low-stock alerts and queries tuned for large datasets.", tags: ["Laravel", "React.js", "MySQL", "Bootstrap"] },
-  { name: "Expense", category: "Finance", tagline: "Expense management", image: "/images/expense.png", url: "https://expense.seebiz.com", description: "Advances, trips and daily expenditures with separate admin and user panels, RBAC and approval workflows.", tags: ["Laravel", "React.js", "MySQL", "Bootstrap"] },
-];
-
 const education = {
   degree: "Associate Degree in",
   field: "Computer Science",
@@ -192,12 +170,6 @@ const education = {
     "Professional growth since 2021: Laravel, MERN, AI integration and SaaS architecture in production.",
   ],
 };
-
-const testimonials = [
-  { text: "Exceptional work from start to finish. The attention to detail and commitment to quality exceeded our expectations. Highly recommend for any complex web development project.", name: "Abdul Basit", role: "CEO, Sublime Traders", tag: "Client" },
-  { text: "Professional, reliable, and incredibly talented. Delivered our project ahead of schedule with outstanding results. Will definitely work together again on future projects.", name: "Alexander", role: "Founder, Quantic Solutions", tag: "Client" },
-  { text: "The technical expertise and creative solutions provided were exactly what we needed. The project was completed with precision and excellent communication throughout the process.", name: "Waqar Ahmad", role: "PO, Alpha Tech Solutions", tag: "Client" },
-];
 
 /* ═════════════════════════ Icons ═════════════════════════ */
 
@@ -499,6 +471,7 @@ export default function Home() {
       </div>
       <Motion paused={menuOpen || resumeOpen} />
       <ResumeView open={resumeOpen} onClose={closeResume} cvHref={CV} />
+      <ChatWidget />
       <div className={styles.progress} ref={progressRef} aria-hidden="true" />
       <a href="#main" className={styles.skip}>
         Skip to content
@@ -881,9 +854,15 @@ export default function Home() {
             <div className={styles.stack}>
               {projects.map((p, i) => (
                 <article key={p.name} className={styles.workCard} data-stack style={{ top: `calc(96px + ${i * 18}px)` }}>
-                  <a href={p.url} target="_blank" rel="noopener noreferrer" className={styles.workShot} aria-label={`Open ${p.name}`} data-cursor="Visit">
-                    <Image src={p.image} alt={`${p.name} screenshot`} fill sizes="(max-width: 900px) 100vw, 640px" />
-                  </a>
+                  {p.url ? (
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className={styles.workShot} aria-label={`Open ${p.name}`} data-cursor="Visit">
+                      <Image src={p.image} alt={`${p.name} screenshot`} fill sizes="(max-width: 900px) 100vw, 640px" />
+                    </a>
+                  ) : (
+                    <div className={styles.workShot}>
+                      <Image src={p.image} alt={`${p.name} screenshot`} fill sizes="(max-width: 900px) 100vw, 640px" />
+                    </div>
+                  )}
                   <div className={styles.workBody}>
                     <div className={styles.workHead}>
                       <span className={styles.monoLabel}>{p.category}</span>
@@ -894,9 +873,13 @@ export default function Home() {
                     <p className={styles.workText}>{p.description}</p>
                     <div className={styles.workFoot}>
                       <Chips items={p.tags} />
-                      <a href={p.url} target="_blank" rel="noopener noreferrer" className={styles.textLink}>
-                        Visit {p.url.replace("https://", "")} <Icon name="arrow" size={14} />
-                      </a>
+                      {p.url ? (
+                        <a href={p.url} target="_blank" rel="noopener noreferrer" className={styles.textLink}>
+                          Visit {p.url.replace(/^https:\/\/(www\.)?/, "")} <Icon name="arrow" size={14} />
+                        </a>
+                      ) : (
+                        <span className={styles.monoLabelMuted}>Private build</span>
+                      )}
                     </div>
                   </div>
                 </article>
